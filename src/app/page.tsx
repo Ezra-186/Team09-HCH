@@ -23,7 +23,7 @@ export default function Home() {
         <p className={styles.eyebrow}>HandCraft Heaven</p>
         <h1 className={styles.headline}>Discover one-of-a-kind pieces made by independent artisans.</h1>
         <p className={styles.subhead}>
-          From hand-thrown ceramics to plant-dyed textiles, every item here is crafted with care, story,
+          From hand thrown ceramics to plant-dyed textiles, every item here is crafted with care, story,
           and sustainable materials.
         </p>
         <div className={styles.actions}>
@@ -40,7 +40,7 @@ export default function Home() {
         <h2 className={styles.sectionHeading}>Curated with intention</h2>
         <p className={styles.sectionText}>
           We partner directly with small makers to bring together timeless, functional pieces. No dropshipping,
-          no mass production—just slow-made goods that you&apos;ll keep for years.
+          no mass production just slow made goods that you&apos;ll keep for years.
         </p>
         <div className={styles.features}>
           {features.map((item) => (
