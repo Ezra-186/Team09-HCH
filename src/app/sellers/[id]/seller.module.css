@@ -1,0 +1,57 @@
+.page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headingGroup {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.title {
+  font-size: 1.9rem;
+}
+
+.location {
+  color: var(--muted);
+}
+
+.bio {
+  color: var(--muted);
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.emptyState {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.backLink {
+  padding: 0.85rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  width: fit-content;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.backLink:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}

@@ -1,0 +1,108 @@
+.page {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.headline {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.subhead {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 740px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.primary {
+  padding: 0.9rem 1.4rem;
+  background: var(--brand);
+  color: var(--surface);
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1px solid var(--brand);
+  box-shadow: 0 12px 30px rgba(128, 0, 42, 0.25);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(128, 0, 42, 0.28);
+}
+
+.secondary {
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.secondary:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+.sectionHeading {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.sectionText {
+  color: var(--muted);
+  max-width: 780px;
+  line-height: 1.6;
+}
+
+.features {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+}
+
+.cardText {
+  color: var(--muted);
+  line-height: 1.5;
+}

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
+import styles from './seller.module.css';
 import {
   getAverageRatingForProduct,
   getProductsBySellerId,
@@ -16,21 +17,12 @@ export default function SellerPage({ params }: SellerPageProps) {
 
   if (!seller) {
     return (
-      <section style={{ display: 'grid', gap: '1rem' }}>
-        <h1 style={{ fontSize: '1.6rem' }}>Seller not found</h1>
-        <p style={{ color: '#4d001a' }}>
+      <section className={styles.emptyState}>
+        <h1>Seller not found</h1>
+        <p className={styles.location}>
           That maker doesn&apos;t exist here yet. Head back to the catalog to keep exploring artisans.
         </p>
-        <Link
-          href="/products"
-          style={{
-            padding: '0.85rem 1.2rem',
-            borderRadius: '10px',
-            border: '1px solid #b59f71',
-            width: 'fit-content',
-            fontWeight: 600,
-          }}
-        >
+        <Link href="/products" className={styles.backLink}>
           Back to products
         </Link>
       </section>
@@ -40,25 +32,17 @@ export default function SellerPage({ params }: SellerPageProps) {
   const sellerProducts = getProductsBySellerId(seller.id);
 
   return (
-    <section style={{ display: 'grid', gap: '1.5rem' }}>
-      <header style={{ display: 'grid', gap: '0.4rem' }}>
-        <p style={{ letterSpacing: '0.08em', textTransform: 'uppercase', color: '#b59f71' }}>
-          Maker
-        </p>
-        <h1 style={{ fontSize: '1.9rem' }}>{seller.name}</h1>
-        <p style={{ color: '#4d001a' }}>{seller.location}</p>
-        <p style={{ color: '#4d001a', maxWidth: '760px', lineHeight: 1.6 }}>{seller.bio}</p>
+    <section className={styles.page}>
+      <header className={styles.headingGroup}>
+        <p className={styles.eyebrow}>Maker</p>
+        <h1 className={styles.title}>{seller.name}</h1>
+        <p className={styles.location}>{seller.location}</p>
+        <p className={styles.bio}>{seller.bio}</p>
       </header>
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '1rem',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        }}
-      >
+      <div className={styles.grid}>
         {sellerProducts.length === 0 ? (
-          <p style={{ color: '#4d001a' }}>
+          <p className={styles.location}>
             This maker hasn&apos;t listed any products yet. Check back soon for new releases.
           </p>
         ) : (

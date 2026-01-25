@@ -1,0 +1,110 @@
+.page {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 860px;
+}
+
+.contentBlock {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-weight: 800;
+  color: var(--brand);
+  font-size: 1.1rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.sellerName {
+  font-weight: 700;
+}
+
+.reviews {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.review {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.9rem;
+  background: var(--surface);
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.reviewDate {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.emptyState {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.backLink {
+  padding: 0.85rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  width: fit-content;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.backLink:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}

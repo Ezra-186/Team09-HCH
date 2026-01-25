@@ -1,4 +1,5 @@
 import ProductCard from '@/components/ProductCard';
+import styles from './products.module.css';
 import { getAverageRatingForProduct, getProducts, getReviewsByProductId, getSellers } from '@/lib/data';
 
 export default function ProductsPage() {
@@ -7,25 +8,16 @@ export default function ProductsPage() {
   const sellerById = new Map(sellers.map((seller) => [seller.id, seller]));
 
   return (
-    <section style={{ display: 'grid', gap: '1.5rem' }}>
-      <header style={{ display: 'grid', gap: '0.4rem' }}>
-        <p style={{ letterSpacing: '0.08em', textTransform: 'uppercase', color: '#b59f71' }}>
-          Catalog
-        </p>
-        <h1 style={{ fontSize: '1.8rem' }}>Featured pieces</h1>
-        <p style={{ color: '#4d001a', maxWidth: '760px' }}>
-          Hand-selected goods from independent makers. Browse by category or explore each seller&apos;s
-          collection.
+    <section className={styles.page}>
+      <header className={styles.headingGroup}>
+        <p className={styles.eyebrow}>Catalog</p>
+        <h1 className={styles.title}>Featured pieces</h1>
+        <p className={styles.subtitle}>
+          Hand-selected goods from independent makers. Browse by category or explore each seller&apos;s collection.
         </p>
       </header>
 
-      <div
-        style={{
-          display: 'grid',
-          gap: '1rem',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        }}
-      >
+      <div className={styles.grid}>
         {products.map((product) => {
           const seller = sellerById.get(product.sellerId);
           if (!seller) {
