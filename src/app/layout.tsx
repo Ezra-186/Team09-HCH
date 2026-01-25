@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import styles from './layout.module.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,17 +16,28 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header style={{ padding: '1rem' }}>
-          <nav style={{ display: 'flex', gap: '1rem' }}>
-            <Link href="/">Home</Link>
-            <Link href="/products">Products</Link>
-          </nav>
+        <header className={styles.header}>
+          <div className={`${styles.container} ${styles.navBar}`}>
+            <Link href="/" className={styles.brand}>
+              HandCraft Heaven
+            </Link>
+            <nav className={styles.links}>
+              <Link className={styles.link} href="/">
+                Home
+              </Link>
+              <Link className={styles.link} href="/products">
+                Products
+              </Link>
+            </nav>
+          </div>
         </header>
 
-        <main style={{ padding: '1rem' }}>{children}</main>
+        <main className={`${styles.container} ${styles.main}`}>{children}</main>
 
-        <footer style={{ padding: '1rem' }}>
-          <small>© {new Date().getFullYear()} HandCraft Heaven</small>
+        <footer className={styles.footer}>
+          <div className={styles.container}>
+            <small>© {new Date().getFullYear()} HandCraft Heaven</small>
+          </div>
         </footer>
       </body>
     </html>
