@@ -9,7 +9,7 @@ import {
 } from '@/lib/data';
 
 type ProductPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -18,8 +18,9 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 });
 
-export default function ProductDetailPage({ params }: ProductPageProps) {
-  const product = getProductById(params.id);
+export default async function ProductDetailPage({ params }: ProductPageProps) {
+  const { id } = await params;
+  const product = getProductById(id);
 
   if (!product) {
     return (

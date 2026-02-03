@@ -9,11 +9,12 @@ import {
 } from '@/lib/data';
 
 type SellerPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export default function SellerPage({ params }: SellerPageProps) {
-  const seller = getSellerById(params.id);
+export default async function SellerPage({ params }: SellerPageProps) {
+  const { id } = await params;
+  const seller = getSellerById(id);
 
   if (!seller) {
     return (
