@@ -1,12 +1,8 @@
 import Link from 'next/link';
 import RatingStars from '@/components/RatingStars';
 import styles from './product-detail.module.css';
-import {
-  getAverageRatingForProduct,
-  getProductById,
-  getReviewsByProductId,
-  getSellerById,
-} from '@/lib/data';
+import { getProductById, getSellerById } from '@/lib/data';
+import { fetchReviewsByProductId } from '@/lib/reviews';
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;
@@ -37,8 +33,10 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   }
 
   const seller = getSellerById(product.sellerId);
-  const reviews = getReviewsByProductId(product.id);
-  const averageRating = getAverageRatingForProduct(product.id);
+  const reviews = await fetchReviewsByProductId(product.id);
+  const reviewCount = reviews.length;
+  const averageRating =
+    reviewCount === 0 ? 0 : Number((reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount).toFixed(1));
 
   return (
     <article className={styles.page}>
@@ -47,7 +45,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <h1 className={styles.title}>{product.name}</h1>
         <p className={styles.description}>{product.description}</p>
         <div className={styles.priceRow}>
-          <RatingStars rating={averageRating} count={reviews.length} />
+          <RatingStars rating={averageRating} count={reviewCount} />
           <span className={styles.price}>${product.price.toFixed(2)}</span>
         </div>
       </header>
@@ -76,8 +74,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             {reviews.map((review) => (
               <li key={review.id} className={styles.review}>
                 <div className={styles.reviewHeader}>
-                  <strong>{review.author}</strong>
-                  <span className={styles.reviewDate}>{dateFormatter.format(new Date(review.date))}</span>
+                  <strong>{review.authorName}</strong>
+                  <span className={styles.reviewDate}>{dateFormatter.format(new Date(review.createdAt))}</span>
                 </div>
                 <div>
                   <RatingStars rating={review.rating} />

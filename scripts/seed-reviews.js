@@ -1,6 +1,10 @@
-import { Product, Review, Seller } from './types';
+/* eslint-disable @typescript-eslint/no-require-imports */
+// Seed the reviews table with the hard-coded review cards used by the UI.
+// Safe to run multiple times; skips duplicates based on product_id + author_name + comment.
 
-export const sellers: Seller[] = [
+const { sql } = require('@vercel/postgres');
+
+const sellers = [
   {
     id: 'seller-1',
     name: 'Luna Looms',
@@ -21,7 +25,7 @@ export const sellers: Seller[] = [
   },
 ];
 
-export const products: Product[] = [
+const products = [
   {
     id: 'product-1',
     sellerId: 'seller-1',
@@ -96,9 +100,8 @@ export const products: Product[] = [
   },
 ];
 
-export const reviews: Review[] = [
+const reviews = [
   {
-    id: 'review-1',
     productId: 'product-1',
     authorName: 'Maya',
     rating: 5,
@@ -106,7 +109,6 @@ export const reviews: Review[] = [
     createdAt: '2024-02-03',
   },
   {
-    id: 'review-2',
     productId: 'product-1',
     authorName: 'Theo',
     rating: 4,
@@ -114,7 +116,6 @@ export const reviews: Review[] = [
     createdAt: '2024-03-12',
   },
   {
-    id: 'review-3',
     productId: 'product-2',
     authorName: 'Ivy',
     rating: 5,
@@ -122,7 +123,6 @@ export const reviews: Review[] = [
     createdAt: '2024-01-28',
   },
   {
-    id: 'review-4',
     productId: 'product-2',
     authorName: 'Sam',
     rating: 4,
@@ -130,7 +130,6 @@ export const reviews: Review[] = [
     createdAt: '2024-04-18',
   },
   {
-    id: 'review-5',
     productId: 'product-3',
     authorName: 'Ana',
     rating: 4,
@@ -138,7 +137,6 @@ export const reviews: Review[] = [
     createdAt: '2024-02-22',
   },
   {
-    id: 'review-6',
     productId: 'product-4',
     authorName: 'Jordan',
     rating: 5,
@@ -146,7 +144,6 @@ export const reviews: Review[] = [
     createdAt: '2024-03-02',
   },
   {
-    id: 'review-7',
     productId: 'product-4',
     authorName: 'Casey',
     rating: 4,
@@ -154,7 +151,6 @@ export const reviews: Review[] = [
     createdAt: '2024-03-19',
   },
   {
-    id: 'review-8',
     productId: 'product-5',
     authorName: 'Zoe',
     rating: 5,
@@ -162,7 +158,6 @@ export const reviews: Review[] = [
     createdAt: '2024-04-05',
   },
   {
-    id: 'review-9',
     productId: 'product-6',
     authorName: 'Omar',
     rating: 3,
@@ -170,7 +165,6 @@ export const reviews: Review[] = [
     createdAt: '2024-01-11',
   },
   {
-    id: 'review-10',
     productId: 'product-7',
     authorName: 'Riley',
     rating: 5,
@@ -178,7 +172,6 @@ export const reviews: Review[] = [
     createdAt: '2024-02-14',
   },
   {
-    id: 'review-11',
     productId: 'product-8',
     authorName: 'Nina',
     rating: 4,
@@ -186,7 +179,6 @@ export const reviews: Review[] = [
     createdAt: '2024-04-01',
   },
   {
-    id: 'review-12',
     productId: 'product-9',
     authorName: 'Alex',
     rating: 5,
@@ -194,3 +186,86 @@ export const reviews: Review[] = [
     createdAt: '2024-03-30',
   },
 ];
+
+async function ensureTables() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS sellers (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      location TEXT,
+      bio TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS products (
+      id TEXT PRIMARY KEY,
+      seller_id TEXT NOT NULL REFERENCES sellers(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      description TEXT,
+      category TEXT NOT NULL,
+      price NUMERIC(10,2) NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS reviews (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      product_id TEXT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+      title TEXT,
+      author_name TEXT NOT NULL,
+      rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+      comment TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `;
+}
+
+async function seed() {
+  await ensureTables();
+
+  for (const seller of sellers) {
+    await sql`
+      INSERT INTO sellers (id, name, location, bio)
+      VALUES (${seller.id}, ${seller.name}, ${seller.location}, ${seller.bio})
+      ON CONFLICT (id) DO NOTHING;
+    `;
+  }
+
+  for (const product of products) {
+    await sql`
+      INSERT INTO products (id, seller_id, name, description, category, price)
+      VALUES (${product.id}, ${product.sellerId}, ${product.name}, ${product.description}, ${product.category}, ${product.price})
+      ON CONFLICT (id) DO NOTHING;
+    `;
+  }
+
+  for (const review of reviews) {
+    const existing = await sql`
+      SELECT id
+      FROM reviews
+      WHERE product_id = ${review.productId}
+        AND author_name = ${review.authorName}
+        AND comment = ${review.comment}
+      LIMIT 1;
+    `;
+
+    if (existing.rowCount > 0) continue;
+
+    await sql`
+      INSERT INTO reviews (product_id, rating, title, comment, author_name, created_at)
+      VALUES (${review.productId}, ${review.rating}, NULL, ${review.comment}, ${review.authorName}, ${review.createdAt});
+    `;
+  }
+}
+
+seed()
+  .then(() => {
+    console.log('Reviews seed completed.');
+  })
+  .catch((error) => {
+    console.error('Failed to seed reviews:', error);
+    process.exit(1);
+  });

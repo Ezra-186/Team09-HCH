@@ -2,7 +2,7 @@
 -- Requires: CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS sellers (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   location TEXT,
   bio TEXT,
@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS sellers (
 );
 
 CREATE TABLE IF NOT EXISTS products (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  seller_id UUID NOT NULL REFERENCES sellers(id) ON DELETE CASCADE,
+  id TEXT PRIMARY KEY,
+  seller_id TEXT NOT NULL REFERENCES sellers(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   description TEXT,
   category TEXT NOT NULL,
@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS reviews (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-  author TEXT NOT NULL,
+  product_id TEXT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  title TEXT,
+  author_name TEXT NOT NULL,
   rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
-  comment TEXT,
-  reviewed_on DATE NOT NULL,
+  comment TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

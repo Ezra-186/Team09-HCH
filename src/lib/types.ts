@@ -17,8 +17,9 @@ export type Product = {
 export type Review = {
   id: string;
   productId: string;
-  author: string;
+  authorName: string;
   rating: number;
   comment: string;
-  date: string;
+  title?: string | null;
+  createdAt: string;
 };

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import styles from './products.module.css';
-import { getAverageRatingForProduct, getProducts, getReviewsByProductId, getSellers } from '@/lib/data';
+import { getProducts, getSellers } from '@/lib/data';
+import { getReviewStatsForProducts } from '@/lib/reviews';
 
 type SearchParams = {
   q?: string;
@@ -44,6 +45,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
     return matchesQuery && matchesCategory && matchesMin && matchesMax;
   });
+
+  const reviewStats = await getReviewStatsForProducts(filteredProducts.map((product) => product.id));
 
   return (
     <section className={styles.page}>
@@ -129,16 +132,15 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             const seller = sellerById.get(product.sellerId);
             if (!seller) return null;
 
-            const productReviews = getReviewsByProductId(product.id);
-            const averageRating = getAverageRatingForProduct(product.id);
+            const stats = reviewStats.get(product.id) ?? { count: 0, average: 0 };
 
             return (
               <ProductCard
                 key={product.id}
                 product={product}
                 seller={seller}
-                averageRating={averageRating}
-                reviewCount={productReviews.length}
+                averageRating={stats.average}
+                reviewCount={stats.count}
               />
             );
           })}

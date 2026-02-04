@@ -1,12 +1,8 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import styles from './seller.module.css';
-import {
-  getAverageRatingForProduct,
-  getProductsBySellerId,
-  getReviewsByProductId,
-  getSellerById,
-} from '@/lib/data';
+import { getProductsBySellerId, getSellerById } from '@/lib/data';
+import { getReviewStatsForProducts } from '@/lib/reviews';
 
 type SellerPageProps = {
   params: Promise<{ id: string }>;
@@ -31,6 +27,7 @@ export default async function SellerPage({ params }: SellerPageProps) {
   }
 
   const sellerProducts = getProductsBySellerId(seller.id);
+  const reviewStats = await getReviewStatsForProducts(sellerProducts.map((product) => product.id));
 
   return (
     <section className={styles.page}>
@@ -48,16 +45,15 @@ export default async function SellerPage({ params }: SellerPageProps) {
           </p>
         ) : (
           sellerProducts.map((product) => {
-            const productReviews = getReviewsByProductId(product.id);
-            const averageRating = getAverageRatingForProduct(product.id);
+            const stats = reviewStats.get(product.id) ?? { count: 0, average: 0 };
 
             return (
               <ProductCard
                 key={product.id}
                 product={product}
                 seller={seller}
-                averageRating={averageRating}
-                reviewCount={productReviews.length}
+                averageRating={stats.average}
+                reviewCount={stats.count}
               />
             );
           })
