@@ -9,7 +9,7 @@
 ### products
 - **Primary key**: `id` (text)
 - **Foreign key**: `seller_id` references `sellers(id)` on delete cascade
-- **Columns**: `name` text not null, `description` text, `category` text not null, `price` numeric(10,2) not null, `created_at` timestamptz default now()
+- **Columns**: `name` text not null, `description` text, `category` text not null, `price` numeric(10,2) not null, `image_url` text, `image_source_url` text, `created_at` timestamptz default now()
 
 ### reviews
 - **Primary key**: `id` (uuid, generated)

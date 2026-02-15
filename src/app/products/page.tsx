@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import styles from './products.module.css';
-import { getProducts, getSellers } from '@/lib/data';
+import { getProductsFromDb } from '@/lib/products';
 import { getReviewStatsForProducts } from '@/lib/reviews';
+import { getSellersFromDb } from '@/lib/sellers';
 
 type SearchParams = {
   q?: string;
@@ -21,11 +22,12 @@ type ProductsPageProps = {
   searchParams?: Promise<SearchParams>;
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const sp = (await searchParams) ?? {};
 
-  const products = getProducts();
-  const sellers = getSellers();
+  const [products, sellers] = await Promise.all([getProductsFromDb(), getSellersFromDb()]);
   const sellerById = new Map(sellers.map((seller) => [seller.id, seller]));
 
   const query = sp.q?.trim().toLowerCase() ?? '';
@@ -33,7 +35,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const minPrice = parsePrice(sp.minPrice);
   const maxPrice = parsePrice(sp.maxPrice);
 
-  const categories = Array.from(new Set(products.map((product) => product.category))).sort();
+  const categories = Array.from(
+    new Set(products.map((product) => product.category).filter((value): value is string => Boolean(value))),
+  ).sort();
 
   const filteredProducts = products.filter((product) => {
     const matchesQuery = query

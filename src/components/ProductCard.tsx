@@ -21,27 +21,37 @@ export default function ProductCard({
   className,
 }: ProductCardProps) {
   return (
-    <article className={`${styles.card} ${className ?? ''}`}>
-      <div className={styles.content}>
-        <p className={styles.category}>{product.category}</p>
-        <h3 className={styles.title}>
-          <Link href={href ?? `/products/${product.id}`} className={styles.titleLink}>
-            {product.name}
-          </Link>
-        </h3>
-        <p className={styles.description}>{product.description}</p>
-      </div>
+    <Link href={href ?? `/products/${product.id}`} className={`${styles.cardLink} ${className ?? ''}`}>
+      <article className={styles.card}>
+        <div className={styles.thumbnailWrap}>
+          {product.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className={styles.thumbnail}
+              loading="lazy"
+              decoding="async"
+              width={320}
+              height={180}
+            />
+          ) : (
+            <div className={styles.placeholder}>No image</div>
+          )}
+        </div>
 
-      <div className={styles.meta}>
-        <RatingStars rating={averageRating} count={reviewCount} />
-        <p className={styles.seller}>
-          By{' '}
-          <Link href={`/sellers/${seller.id}`} className={styles.sellerLink}>
-            {seller.name}
-          </Link>
-        </p>
-        <p className={styles.price}>${product.price.toFixed(2)}</p>
-      </div>
-    </article>
+        <div className={styles.content}>
+          <p className={styles.categoryBadge}>{product.category ?? 'General'}</p>
+          <h3 className={styles.title}>{product.name}</h3>
+          <p className={styles.description}>{product.description}</p>
+        </div>
+
+        <div className={styles.meta}>
+          <RatingStars rating={averageRating} count={reviewCount} />
+          <p className={styles.seller}>By {seller.name}</p>
+          <p className={styles.price}>${product.price.toFixed(2)}</p>
+        </div>
+      </article>
+    </Link>
   );
 }

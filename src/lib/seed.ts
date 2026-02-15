@@ -29,6 +29,8 @@ export const products: Product[] = [
     description: 'A textured statement piece woven with plant-dyed wool and linen.',
     category: 'Textiles',
     price: 120,
+    imageUrl: 'https://images.unsplash.com/photo-1616627456172-16f66d5f2125?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/16f66d5f2125',
   },
   {
     id: 'product-2',
@@ -37,6 +39,8 @@ export const products: Product[] = [
     description: 'Lightweight throw dyed with natural indigo, finished with hand-twisted fringe.',
     category: 'Textiles',
     price: 180,
+    imageUrl: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/89e068629265',
   },
   {
     id: 'product-3',
@@ -45,6 +49,8 @@ export const products: Product[] = [
     description: 'Linen runner colored with marigold petals and soft iron modifiers.',
     category: 'Textiles',
     price: 75,
+    imageUrl: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/361805f42e86',
   },
   {
     id: 'product-4',
@@ -53,6 +59,8 @@ export const products: Product[] = [
     description: 'Wheel-thrown mug with a satin glaze and carved thumb rest for daily rituals.',
     category: 'Ceramics',
     price: 38,
+    imageUrl: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/6b1558fcca3d',
   },
   {
     id: 'product-5',
@@ -61,6 +69,8 @@ export const products: Product[] = [
     description: 'Tall vase with layered glazes reminiscent of warm canyon mornings.',
     category: 'Ceramics',
     price: 95,
+    imageUrl: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/246f612d3b3d',
   },
   {
     id: 'product-6',
@@ -69,6 +79,8 @@ export const products: Product[] = [
     description: 'Low-profile incense holder with hand-etched geometrics and ash catch.',
     category: 'Ceramics',
     price: 28,
+    imageUrl: 'https://images.unsplash.com/photo-1612196808214-b7e239e5f60c?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/b7e239e5f60c',
   },
   {
     id: 'product-7',
@@ -77,6 +89,8 @@ export const products: Product[] = [
     description: 'Curved-edge board finished with food-safe oil for gatherings and grazing.',
     category: 'Woodwork',
     price: 110,
+    imageUrl: 'https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/2ecf227e85b2',
   },
   {
     id: 'product-8',
@@ -85,6 +99,8 @@ export const products: Product[] = [
     description: 'Mixed-material candle holder pairing warm walnut with brushed copper.',
     category: 'Woodwork',
     price: 45,
+    imageUrl: 'https://images.unsplash.com/photo-1603006905393-c8d6f6e8f2f8?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/c8d6f6e8f2f8',
   },
   {
     id: 'product-9',
@@ -93,6 +109,8 @@ export const products: Product[] = [
     description: 'Hand-stitched sketchbook with removable cotton pages and wrap closure.',
     category: 'Leatherwork',
     price: 68,
+    imageUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80',
+    imageSourceUrl: 'https://unsplash.com/photos/044cdead277a',
   },
 ];
 

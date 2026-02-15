@@ -1,16 +1,19 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import styles from './seller.module.css';
-import { getProductsBySellerId, getSellerById } from '@/lib/data';
+import { getProductsBySellerIdFromDb } from '@/lib/products';
 import { getReviewStatsForProducts } from '@/lib/reviews';
+import { getSellerByIdFromDb } from '@/lib/sellers';
 
 type SellerPageProps = {
   params: Promise<{ id: string }>;
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function SellerPage({ params }: SellerPageProps) {
   const { id } = await params;
-  const seller = getSellerById(id);
+  const seller = await getSellerByIdFromDb(id);
 
   if (!seller) {
     return (
@@ -26,7 +29,7 @@ export default async function SellerPage({ params }: SellerPageProps) {
     );
   }
 
-  const sellerProducts = getProductsBySellerId(seller.id);
+  const sellerProducts = await getProductsBySellerIdFromDb(seller.id);
   const reviewStats = await getReviewStatsForProducts(sellerProducts.map((product) => product.id));
 
   return (

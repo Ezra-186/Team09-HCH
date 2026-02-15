@@ -1,0 +1,119 @@
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.title {
+  margin: 0.25rem 0;
+}
+
+.subtitle {
+  color: #4b5563;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.primaryLink,
+.secondaryButton,
+.editLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #111827;
+}
+
+.primaryLink {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.secondaryButton {
+  cursor: pointer;
+}
+
+.list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.item {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.itemMain h2 {
+  margin: 0 0 0.35rem;
+}
+
+.itemMain p {
+  margin: 0.25rem 0;
+  color: #374151;
+}
+
+.itemActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.itemActions form {
+  margin: 0;
+}
+
+.error {
+  color: #b91c1c;
+  margin: 0;
+}
+
+.empty {
+  margin: 0;
+  color: #4b5563;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-inline: 0.3rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .item {
+    flex-direction: column;
+  }
+
+  .itemActions {
+    width: 100%;
+  }
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSellerById } from '@/lib/data';
+import { getSellerByIdFromDb } from '@/lib/sellers';
 import { Seller } from '@/lib/types';
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse<Seller | { message: string }>> {
   const { id } = await params;
-  const seller = getSellerById(id);
+  const seller = await getSellerByIdFromDb(id);
 
   if (!seller) {
     return NextResponse.json({ message: 'Seller not found' }, { status: 404 });

@@ -10,6 +10,14 @@ export type ReviewRecord = {
   createdAt: string;
 };
 
+type CreateReviewInput = {
+  productId: string;
+  rating: number;
+  title?: string;
+  comment: string;
+  authorName: string;
+};
+
 type ReviewStats = Map<
   string,
   {
@@ -30,7 +38,7 @@ export async function fetchReviewsByProductId(productId: string): Promise<Review
       created_at AS "createdAt"
     FROM reviews
     WHERE product_id = ${productId}
-    ORDER BY created_at DESC;
+    ORDER BY created_at ASC, id ASC;
   `;
 
   return rows;
@@ -66,4 +74,18 @@ export async function getReviewStatsForProducts(productIds: string[]) {
   });
 
   return stats;
+}
+
+export async function createReview(input: CreateReviewInput): Promise<void> {
+  await sql`
+    INSERT INTO reviews (product_id, rating, title, comment, author_name, created_at)
+    VALUES (
+      ${input.productId},
+      ${input.rating},
+      ${input.title?.trim() ? input.title.trim() : null},
+      ${input.comment},
+      ${input.authorName},
+      now()
+    );
+  `;
 }

@@ -1,0 +1,68 @@
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.8rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.input,
+.textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  font-size: 1rem;
+}
+
+.textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.submit,
+.cancel {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 0.58rem 0.8rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.submit {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.cancel {
+  background: white;
+  color: #111827;
+}
+
+.error {
+  color: #b91c1c;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-inline: 0.3rem;
+  }
+}

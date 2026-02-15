@@ -4,18 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "seed:reviews": "node scripts/seed-reviews.js"
+    "seed:reviews": "node scripts/seed-reviews.js",
+    "seed:seller-passwords": "node scripts/seed-seller-passwords.mjs"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",
+    "bcrypt": "^6.0.0",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

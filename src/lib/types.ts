@@ -10,8 +10,11 @@ export type Product = {
   sellerId: string;
   name: string;
   description: string;
-  category: string;
+  category: string | null;
   price: number;
+  imageUrl?: string | null;
+  imageSourceUrl?: string | null;
+  status?: string | null;
 };
 
 export type Review = {

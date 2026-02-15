@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import RatingStars from '@/components/RatingStars';
 import styles from './product-detail.module.css';
-import { getProductById, getSellerById } from '@/lib/data';
+import { getProductByIdFromDb } from '@/lib/products';
 import { fetchReviewsByProductId } from '@/lib/reviews';
+import { getSellerByIdFromDb } from '@/lib/sellers';
 
 type ProductPageProps = {
   params: Promise<{ id: string }>;
+  searchParams?: Promise<{ reviewError?: string; reviewSuccess?: string }>;
 };
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -14,9 +16,12 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 });
 
-export default async function ProductDetailPage({ params }: ProductPageProps) {
+export const dynamic = 'force-dynamic';
+
+export default async function ProductDetailPage({ params, searchParams }: ProductPageProps) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductByIdFromDb(id);
+  const sp = (await searchParams) ?? {};
 
   if (!product) {
     return (
@@ -32,7 +37,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     );
   }
 
-  const seller = getSellerById(product.sellerId);
+  const seller = await getSellerByIdFromDb(product.sellerId);
   const reviews = await fetchReviewsByProductId(product.id);
   const reviewCount = reviews.length;
   const averageRating =
@@ -41,8 +46,20 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
   return (
     <article className={styles.page}>
       <header className={styles.contentBlock}>
-        <p className={styles.eyebrow}>{product.category}</p>
+        <p className={styles.categoryBadge}>{product.category ?? 'General'}</p>
         <h1 className={styles.title}>{product.name}</h1>
+        {product.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className={styles.productImage}
+            loading="lazy"
+            decoding="async"
+            width={1200}
+            height={800}
+          />
+        ) : null}
         <p className={styles.description}>{product.description}</p>
         <div className={styles.priceRow}>
           <RatingStars rating={averageRating} count={reviewCount} />
@@ -85,6 +102,41 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             ))}
           </ul>
         )}
+      </section>
+
+      <section className={styles.card}>
+        <h2 className={styles.cardTitle}>Leave a review</h2>
+        {sp.reviewError ? <p className={styles.error}>{sp.reviewError}</p> : null}
+        {sp.reviewSuccess ? <p className={styles.success}>{sp.reviewSuccess}</p> : null}
+        <form action="/api/reviews" method="post" className={styles.reviewForm}>
+          <input type="hidden" name="productId" value={product.id} />
+          <input type="hidden" name="returnTo" value={`/products/${product.id}`} />
+          <label>
+            Your name
+            <input name="authorName" required className={styles.input} />
+          </label>
+          <label>
+            Rating
+            <select name="rating" required className={styles.input} defaultValue="5">
+              <option value="5">5</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1</option>
+            </select>
+          </label>
+          <label>
+            Title (optional)
+            <input name="title" className={styles.input} />
+          </label>
+          <label>
+            Comment
+            <textarea name="comment" required className={styles.textarea} />
+          </label>
+          <button type="submit" className={styles.reviewButton}>
+            Submit review
+          </button>
+        </form>
       </section>
     </article>
   );

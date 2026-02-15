@@ -30,9 +30,9 @@ export default function Home() {
           <Link href="/products" className={styles.primary}>
             Browse the collection
           </Link>
-          <a href="#promise" className={styles.secondary}>
+          <Link href="/what-makes-us-different" className={styles.secondary}>
             What makes us different
-          </a>
+          </Link>
         </div>
       </section>
 

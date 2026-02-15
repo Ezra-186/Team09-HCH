@@ -1,0 +1,72 @@
+.page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 2.5rem 0;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.title {
+  margin: 0.25rem 0;
+}
+
+.subtitle {
+  color: #4b5563;
+  margin: 0;
+}
+
+.form {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.62rem 0.7rem;
+  font-size: 1rem;
+}
+
+.submit {
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #b91c1c;
+}
+
+.help {
+  margin-top: 1rem;
+  color: #4b5563;
+}
