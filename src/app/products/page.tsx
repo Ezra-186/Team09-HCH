@@ -26,12 +26,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const sp = (await searchParams) ?? {};
+  const search = sp.q ?? '';
+  const selectedCategory = sp.category?.trim() ?? '';
+  const minPriceParam = sp.minPrice ?? '';
+  const maxPriceParam = sp.maxPrice ?? '';
+  const filterFormKey = `${search}|${selectedCategory}|${minPriceParam}|${maxPriceParam}`;
 
   const [products, sellers] = await Promise.all([getProductsFromDb(), getSellersFromDb()]);
   const sellerById = new Map(sellers.map((seller) => [seller.id, seller]));
 
-  const query = sp.q?.trim().toLowerCase() ?? '';
-  const category = sp.category?.trim() ?? '';
+  const query = search.trim().toLowerCase();
+  const category = selectedCategory;
   const minPrice = parsePrice(sp.minPrice);
   const rawMaxPrice = parsePrice(sp.maxPrice);
   const maxPrice =
@@ -65,14 +70,14 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       </header>
 
       <section className={styles.filterSection} aria-label="Product filters">
-        <form className={styles.filterForm} action="/products" method="get">
+        <form key={filterFormKey} className={styles.filterForm} action="/products" method="get">
           <div className={styles.fieldRow}>
             <label className={styles.field}>
               <span className={styles.label}>Search</span>
               <input
                 type="search"
                 name="q"
-                defaultValue={sp.q ?? ''}
+                defaultValue={search}
                 placeholder="Search names and descriptions"
                 className={styles.input}
               />
@@ -80,7 +85,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
             <label className={styles.field}>
               <span className={styles.label}>Category</span>
-              <select name="category" defaultValue={category} className={styles.select}>
+              <select name="category" defaultValue={selectedCategory} className={styles.select}>
                 <option value="">All categories</option>
                 {categories.map((option) => (
                   <option key={option} value={option}>
@@ -100,7 +105,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 min="0"
                 step="1"
                 placeholder="0"
-                defaultValue={sp.minPrice ?? ''}
+                defaultValue={minPriceParam}
                 className={styles.input}
               />
             </label>
@@ -113,7 +118,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                 min="0"
                 step="1"
                 placeholder="200"
-                defaultValue={sp.maxPrice ?? ''}
+                defaultValue={maxPriceParam}
                 className={styles.input}
               />
             </label>
