@@ -21,6 +21,17 @@
   margin: 0.25rem 0;
 }
 
+.sellerProfileLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.sellerProfileLink:hover {
+  color: #1f2937;
+}
+
 .subtitle {
   color: #4b5563;
   margin: 0;

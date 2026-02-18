@@ -43,7 +43,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>Seller Dashboard</p>
-          <h1 className={styles.title}>{seller.name}</h1>
+          <h1 className={styles.title}>
+            <Link href={`/sellers/${seller.id}`} className={styles.sellerProfileLink}>
+              {seller.name}
+            </Link>
+          </h1>
           <p className={styles.subtitle}>Manage your product listings.</p>
         </div>
         <div className={styles.headerActions}>

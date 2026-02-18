@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '@/app/layout.module.css';
 
 type HeaderNavProps = {
@@ -12,6 +12,20 @@ type HeaderNavProps = {
 export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 761px)');
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
   return (
     <>
       <nav className={styles.links} aria-label="Main navigation">
@@ -20,6 +34,9 @@ export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavPr
         </Link>
         <Link className={styles.link} href="/products">
           Products
+        </Link>
+        <Link className={styles.link} href="/sellers">
+          Sellers
         </Link>
         <Link className={styles.link} href="/dashboard">
           Dashboard
@@ -53,12 +70,16 @@ export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavPr
           </span>
         </button>
 
-        <div id="mobile-nav" className={styles.mobilePanel} hidden={!isMenuOpen}>
+        {isMenuOpen ? (
+          <div id="mobile-nav" className={styles.mobilePanel}>
             <Link className={styles.link} href="/" onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
             <Link className={styles.link} href="/products" onClick={() => setIsMenuOpen(false)}>
               Products
+            </Link>
+            <Link className={styles.link} href="/sellers" onClick={() => setIsMenuOpen(false)}>
+              Sellers
             </Link>
             <Link className={styles.link} href="/dashboard" onClick={() => setIsMenuOpen(false)}>
               Dashboard
@@ -74,7 +95,8 @@ export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavPr
                 Login
               </Link>
             )}
-        </div>
+          </div>
+        ) : null}
       </div>
     </>
   );

@@ -1,0 +1,65 @@
+.container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.headerCard {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.title {
+  font-size: 1.9rem;
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.about {
+  color: var(--muted);
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+.productsSection {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sectionTitle {
+  font-size: 1.35rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.emptyState {
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+  }
+}

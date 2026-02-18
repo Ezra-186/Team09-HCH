@@ -1,9 +1,10 @@
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
-import styles from './seller.module.css';
+import styles from './seller-profile.module.css';
 import { getProductsBySellerIdFromDb } from '@/lib/products';
 import { getReviewStatsForProducts } from '@/lib/reviews';
 import { getSellerByIdFromDb } from '@/lib/sellers';
+import { Seller } from '@/lib/types';
 
 type SellerPageProps = {
   params: Promise<{ id: string }>;
@@ -11,57 +12,53 @@ type SellerPageProps = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function SellerPage({ params }: SellerPageProps) {
+export default async function SellerProfilePage({ params }: SellerPageProps) {
   const { id } = await params;
   const seller = await getSellerByIdFromDb(id);
 
   if (!seller) {
-    return (
-      <section className={styles.emptyState}>
-        <h1>Seller not found</h1>
-        <p className={styles.location}>
-          That maker doesn&apos;t exist here yet. Head back to the catalog to keep exploring artisans.
-        </p>
-        <Link href="/products" className={styles.backLink}>
-          Back to products
-        </Link>
-      </section>
-    );
+    notFound();
   }
 
+  const about =
+    seller.bio ||
+    (seller as Seller & { story?: string; description?: string; about?: string }).story ||
+    (seller as Seller & { story?: string; description?: string; about?: string }).description ||
+    (seller as Seller & { story?: string; description?: string; about?: string }).about;
   const sellerProducts = await getProductsBySellerIdFromDb(seller.id);
   const reviewStats = await getReviewStatsForProducts(sellerProducts.map((product) => product.id));
 
   return (
-    <section className={styles.page}>
-      <header className={styles.headingGroup}>
-        <p className={styles.eyebrow}>Maker</p>
+    <section className={styles.container}>
+      <header className={styles.headerCard}>
+        <p className={styles.eyebrow}>Seller Profile</p>
         <h1 className={styles.title}>{seller.name}</h1>
-        <p className={styles.location}>{seller.location}</p>
-        <p className={styles.bio}>{seller.bio}</p>
+        {seller.location ? <p className={styles.meta}>{seller.location}</p> : null}
+        {about ? <p className={styles.about}>{about}</p> : null}
       </header>
 
-      <div className={styles.grid}>
+      <section className={styles.productsSection}>
+        <h2 className={styles.sectionTitle}>Products by {seller.name}</h2>
         {sellerProducts.length === 0 ? (
-          <p className={styles.location}>
-            This maker hasn&apos;t listed any products yet. Check back soon for new releases.
-          </p>
+          <p className={styles.emptyState}>No products listed yet.</p>
         ) : (
-          sellerProducts.map((product) => {
-            const stats = reviewStats.get(product.id) ?? { count: 0, average: 0 };
+          <div className={styles.grid}>
+            {sellerProducts.map((product) => {
+              const stats = reviewStats.get(product.id) ?? { count: 0, average: 0 };
 
-            return (
-              <ProductCard
-                key={product.id}
-                product={product}
-                seller={seller}
-                averageRating={stats.average}
-                reviewCount={stats.count}
-              />
-            );
-          })
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  seller={seller}
+                  averageRating={stats.average}
+                  reviewCount={stats.count}
+                />
+              );
+            })}
+          </div>
         )}
-      </div>
+      </section>
     </section>
   );
 }
