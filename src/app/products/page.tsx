@@ -33,7 +33,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const query = sp.q?.trim().toLowerCase() ?? '';
   const category = sp.category?.trim() ?? '';
   const minPrice = parsePrice(sp.minPrice);
-  const maxPrice = parsePrice(sp.maxPrice);
+  const rawMaxPrice = parsePrice(sp.maxPrice);
+  const maxPrice =
+    minPrice !== undefined && rawMaxPrice !== undefined && minPrice > rawMaxPrice ? undefined : rawMaxPrice;
 
   const categories = Array.from(
     new Set(products.map((product) => product.category).filter((value): value is string => Boolean(value))),

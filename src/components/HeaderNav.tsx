@@ -53,8 +53,7 @@ export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavPr
           </span>
         </button>
 
-        {isMenuOpen ? (
-          <div id="mobile-nav" className={styles.mobilePanel}>
+        <div id="mobile-nav" className={styles.mobilePanel} hidden={!isMenuOpen}>
             <Link className={styles.link} href="/" onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
@@ -75,8 +74,7 @@ export default function HeaderNav({ isAuthenticated, logoutAction }: HeaderNavPr
                 Login
               </Link>
             )}
-          </div>
-        ) : null}
+        </div>
       </div>
     </>
   );

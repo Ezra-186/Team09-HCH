@@ -95,8 +95,9 @@
 }
 
 .clearLink {
-  color: var(--muted);
+  color: #1f2937;
   font-weight: 600;
+  text-decoration: underline;
 }
 
 .grid {

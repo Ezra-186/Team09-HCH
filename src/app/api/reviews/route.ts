@@ -57,16 +57,23 @@ export async function POST(request: NextRequest) {
     authorName = typeof payload.authorName === 'string' ? payload.authorName.trim() : '';
   }
 
-  const errorMessage =
-    !productId || !authorName || !comment || !Number.isFinite(rating) || rating < 1 || rating > 5
-      ? 'Invalid review payload.'
-      : '';
+  const isRatingInvalid = !Number.isFinite(rating) || rating < 1 || rating > 5;
+  const isAuthorMissing = !authorName;
+  const isCommentMissing = !comment;
+  const errorMessage = !productId || isAuthorMissing || isCommentMissing || isRatingInvalid ? 'Invalid review payload.' : '';
 
   if (errorMessage) {
     if (isForm) {
       const target = safeReturnPath(returnTo, productId ? `/products/${productId}` : '/products');
       const url = new URL(target, request.url);
-      url.searchParams.set('reviewError', errorMessage);
+      const formErrorMessage = isRatingInvalid
+        ? 'Rating must be between 1 and 5.'
+        : isAuthorMissing
+          ? 'Name is required.'
+          : isCommentMissing
+            ? 'Comment is required.'
+            : errorMessage;
+      url.searchParams.set('reviewError', formErrorMessage);
       return NextResponse.redirect(url, 303);
     }
 

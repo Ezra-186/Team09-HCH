@@ -72,8 +72,9 @@
   white-space: nowrap;
   line-height: 1;
   font-size: 12px;
-  color: var(--muted);
-  background: #f4f1eb;
+  color: #111827;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
   border-radius: 9999px;
   width: fit-content;
   max-width: 100%;

@@ -106,8 +106,16 @@ export default async function ProductDetailPage({ params, searchParams }: Produc
 
       <section className={styles.card}>
         <h2 className={styles.cardTitle}>Leave a review</h2>
-        {sp.reviewError ? <p className={styles.error}>{sp.reviewError}</p> : null}
-        {sp.reviewSuccess ? <p className={styles.success}>{sp.reviewSuccess}</p> : null}
+        {sp.reviewError ? (
+          <p className={styles.error} role="alert">
+            {sp.reviewError}
+          </p>
+        ) : null}
+        {sp.reviewSuccess ? (
+          <p className={styles.success} aria-live="polite">
+            {sp.reviewSuccess}
+          </p>
+        ) : null}
         <form action="/api/reviews" method="post" className={styles.reviewForm}>
           <input type="hidden" name="productId" value={product.id} />
           <input type="hidden" name="returnTo" value={`/products/${product.id}`} />

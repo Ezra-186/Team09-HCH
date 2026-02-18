@@ -231,7 +231,7 @@ export async function createProductForSeller(input: ProductCreateInput): Promise
 
   if (columns.imageSourceUrl) {
     insertColumns.push('image_source_url');
-    values.push(input.imageUrl ?? null);
+    values.push(null);
   }
 
   if (columns.status) {
@@ -279,7 +279,7 @@ export async function updateProductForSeller(
 
   if (columns.imageSourceUrl) {
     updates.push(`image_source_url = $${values.length + 1}`);
-    values.push(input.imageUrl ?? null);
+    values.push(null);
   }
 
   values.push(productId, sellerId);

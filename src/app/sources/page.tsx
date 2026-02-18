@@ -14,15 +14,14 @@ function displayDomain(url: string): string {
 export default async function SourcesPage() {
   const productSources = await getProductImageSourcesFromDb();
 
-  const sourceUrls = Array.from(new Set(productSources.flatMap((product) => {
-    const imageUrl = (product.imageUrl ?? '').trim();
-    const sourceUrl = (product.imageSourceUrl ?? '').trim();
-    if (!imageUrl) {
-      return [];
-    }
-
-    const linkUrl = sourceUrl || imageUrl;
-    return linkUrl ? [linkUrl] : [];
+  const sourceUrls = Array.from(new Set(productSources.flatMap((row) => {
+    const sourceLink =
+      row.imageSourceUrl && row.imageSourceUrl.trim()
+        ? row.imageSourceUrl.trim()
+        : row.imageUrl && row.imageUrl.trim()
+          ? row.imageUrl.trim()
+          : '';
+    return sourceLink ? [sourceLink] : [];
   }))).sort((a, b) => a.localeCompare(b));
 
   return (
@@ -36,11 +35,11 @@ export default async function SourcesPage() {
         <p className={styles.empty}>No image sources are available yet.</p>
       ) : (
         <ul className={styles.list}>
-          {sourceUrls.map((url) => (
-            <li key={url} className={styles.item}>
-              <span className={styles.domain}>{displayDomain(url)}</span>
-              <a href={url} target="_blank" rel="noreferrer noopener" className={styles.link}>
-                {url}
+          {sourceUrls.map((sourceLink) => (
+            <li key={sourceLink} className={styles.item}>
+              <span className={styles.domain}>{displayDomain(sourceLink)}</span>
+              <a href={sourceLink} target="_blank" rel="noreferrer noopener" className={styles.link}>
+                {sourceLink}
               </a>
             </li>
           ))}

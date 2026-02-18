@@ -15,6 +15,7 @@ export default function RatingStars({ rating, count }: RatingStarsProps) {
   return (
     <div
       className={styles.wrapper}
+      role="img"
       aria-label={
         count && count > 0
           ? `Rated ${displayRating.toFixed(1)} out of 5 from ${count} review${count === 1 ? '' : 's'}`

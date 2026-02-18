@@ -34,7 +34,7 @@ export default function DeleteProductButton({ action }: DeleteProductButtonProps
 
   return (
     <>
-      <button type="button" onClick={() => setIsOpen(true)} className={styles.trigger}>
+      <button type="button" onClick={() => setIsOpen(true)} className={styles.trigger} aria-label="Delete product">
         Delete
       </button>
 

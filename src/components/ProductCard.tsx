@@ -42,7 +42,7 @@ export default function ProductCard({
 
         <div className={styles.content}>
           <p className={styles.categoryBadge}>{product.category ?? 'General'}</p>
-          <h3 className={styles.title}>{product.name}</h3>
+          <h2 className={styles.title}>{product.name}</h2>
           <p className={styles.description}>{product.description}</p>
         </div>
 
